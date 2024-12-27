@@ -10,7 +10,7 @@ export async function parseConfig(filePath: string) {
 }
 
 // Corrected function name and validation logic
-export async function validateConfig(config: string) {
-  const validatedContent = await rootSchema.parseAsync(JSON.parse(config)); // Validate parsed content
+export async function validateConfig(config: any) {
+  const validatedContent = await rootSchema.parseAsync(config); // Validate parsed content
   return validatedContent; // Return validated content
 }

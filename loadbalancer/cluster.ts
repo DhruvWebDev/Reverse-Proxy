@@ -26,7 +26,7 @@ if (cluster.isMaster) {
   // Sample route
   app.get('/', (req, res) => {
     
-  res.send(`Computed result: ${worker.process.pid}`);});
+  res.send(`Worker result: ${worker.process.pid}`);});
 
   // Route for heavy computation (example)
   app.get('/compute', (req, res) => {

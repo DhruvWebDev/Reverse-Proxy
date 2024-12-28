@@ -1,30 +1,30 @@
 import { program } from 'commander';
 import { parseConfig, validateConfig } from './parser';
-import cluster from 'node:cluster';
-import * as os from 'node:os'; // Corrected the import statement
-
-interface createServerConfig {
-    port: number;
-    workers: number;
-}
-
-async function createServer(createServerOptions: createServerConfig) {
-}
+const cluster = require('cluster');
+import * as os from 'node:os';
+import * as http from 'node:http';
+import { createServer } from './server';
 
 async function main() {
+    console.log(`Running Node.js version: ${process.version}`);
     program.option('--config <path>');
     program.parse();
     const options = program.opts();
+
     if (options && 'config' in options) {
-        // console.log('config file path:', options);
-        const parseDatas = await parseConfig(options.config);
-        // console.log(parseDatas);
-        const validatedContent = await validateConfig(parseDatas);
-        // console.log("hello", validatedContent);
-        await createServer({
-            port: validatedContent.server.listen,
-            workers: validatedContent.server.workers, // Correct usage of os.cpus()
-        });
+        try {
+            const parseData = await parseConfig(options.config);
+            const validatedContent = await validateConfig(parseData);
+
+            const port = validatedContent.server.listen || 8000;
+            const workers = validatedContent.server.workers || os.cpus().length;
+
+            await createServer({ port, workers, config: validatedContent });
+        } catch (error) {
+            console.error('Error while setting up the server:', error.message);
+        }
+    } else {
+        console.error('No config file specified. Use --config <path> to specify the configuration file.');
     }
 }
 

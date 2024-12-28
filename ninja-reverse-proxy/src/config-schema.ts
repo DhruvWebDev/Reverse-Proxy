@@ -32,3 +32,5 @@ const serverSchema = z.object({
 export const rootSchema = z.object({
     server: serverSchema,
 });
+
+export type configSchemaType = z.infer<typeof rootSchema>;

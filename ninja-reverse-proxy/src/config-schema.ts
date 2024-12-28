@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Define the schema for an individual upstream node
 const upstreamNodeSchema = z.object({
   id: z.string(),
-  url: z.string().url(),
+  url: z.string(),
 });
 
 // Define the schema for the headers

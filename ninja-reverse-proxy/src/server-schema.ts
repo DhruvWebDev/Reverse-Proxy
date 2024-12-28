@@ -11,7 +11,7 @@ export const workerMessageSchema  = z.object({
 export const replyMessageSchema  = z.object({
     data: z.any(),
     error  : z.string().optional(),
-    errorCode : z.number().optional(),
+    errorCode: z.enum(['500', '404']).optional(),
 })
 
 
